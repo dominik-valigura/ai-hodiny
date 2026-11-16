@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Server Time Analog Clock</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <main class="page">
+    <h1>Server Time</h1>
+    <div class="clock-wrap">
+      <svg id="clock" viewBox="0 0 200 200" aria-label="Analog clock showing server time" role="img">
+        <circle cx="100" cy="100" r="95" class="dial" />
+        <g id="minute-ticks"></g>
+        <g id="hour-ticks"></g>
+        <g id="hour-numbers"></g>
+
+        <line id="hour-hand" class="hand hour" x1="100" y1="100" x2="100" y2="55" />
+        <line id="minute-hand" class="hand minute" x1="100" y1="100" x2="100" y2="35" />
+        <line id="second-hand" class="hand second" x1="100" y1="112" x2="100" y2="28" />
+        <circle cx="100" cy="100" r="5" class="center-cap" />
+      </svg>
+    </div>
+    <div class="time-readout" id="time-readout">{{ server_time.display }}</div>
+    <p class="caption">Analog clock synchronized to the server's current time (not browser local time).</p>
+  </main>
+
+  <script>
+    window.__SERVER_TIME__ = {
+      h: {{ server_time.h }},
+      m: {{ server_time.m }},
+      s: {{ server_time.s }},
+      ms: {{ server_time.ms }},
+      epochMs: {{ server_time.epoch_ms }},
+      tzOffsetMin: {{ server_time.tz_offset_min }}
+    };
+  </script>
+  <script src="{{ url_for('static', filename='js/clock.js') }}"></script>
+</body>
+</html>
